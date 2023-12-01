@@ -27,7 +27,7 @@ if rank == 0:
 
 # Training
 def train(rank, world_size):
-    model = Model_Class.cuda()
+    model = Model_Class().cuda()
     model = DDP(model)
     optimizer, scheduler = get_optimizer(model)
     train_loader, validation_loader = get_loaders(world_size, rank, BATCH_SIZE, TRAIN_VAL_RATIO)
@@ -39,6 +39,7 @@ def train(rank, world_size):
         writer = SummaryWriter(log_dir=tensor_bd_dir)
 
     for epoch in range(EPOCH_NUM):
+        model.train()
         train_loss = 0.0
         for batch_idx, (img, gt) in enumerate(train_loader):
             img, gt = img.cuda(), gt.cuda()
