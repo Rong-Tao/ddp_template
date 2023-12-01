@@ -5,7 +5,7 @@ from torch.utils.data import Dataset, DataLoader, random_split
 from torch.utils.data.distributed import DistributedSampler
 
 
-def get_loaders(world_size, rank, batch_size, split_ratio=0.8):
+def get_loaders(world_size, rank, batch_size, split_ratio):
     full_dataset = Dataset_Class()
     train_size = int(split_ratio * len(full_dataset))
     validation_size = len(full_dataset) - train_size

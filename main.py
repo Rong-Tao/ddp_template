@@ -9,7 +9,8 @@ import os
 
 from model import Model_Class
 from dataset import get_loaders
-from util import arg, get_optimizer,batch_logger, epoch_logger_saver, criterion, BATCH_SIZE, EPOCH_NUM
+from util import arg, get_optimizer,batch_logger, epoch_logger_saver
+from util import criterion, BATCH_SIZE, EPOCH_NUM, TRAIN_VAL_RATIO
 
 ## Initialize Distributed Training #####
 def init_distributed_mode():
@@ -29,7 +30,7 @@ def train(rank, world_size):
     model = Model_Class.cuda()
     model = DDP(model)
     optimizer, scheduler = get_optimizer(model)
-    train_loader, validation_loader = get_loaders(world_size, rank, BATCH_SIZE)
+    train_loader, validation_loader = get_loaders(world_size, rank, BATCH_SIZE, TRAIN_VAL_RATIO)
 
     best_loss = float('inf')
 
@@ -65,7 +66,7 @@ def train(rank, world_size):
         scheduler.step(validation_loss)
         
         if rank == 0:
-            best_loss = epoch_logger_saver(model, writer, epoch, train_loss / len(train_loader), validation_loss, best_loss, state_dict_dir)
+            best_loss = epoch_logger_saver(model, writer, epoch, train_loss/len(train_loader), validation_loss, best_loss, state_dict_dir)
 
     if rank == 0:
         writer.close()

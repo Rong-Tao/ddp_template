@@ -5,11 +5,12 @@ import torch.optim as optim
 
 BATCH_SIZE = 64
 EPOCH_NUM = 10
+TRAIN_VAL_RATIO = 0.8 # 0-1
 
 criterion = torch.nn.CrossEntropyLoss()
 
 def get_optimizer(model):
-    optimizer = optim.Adam(model.parameters(), lr=0.001)
+    optimizer = optim.AdamW(model.parameters(), lr=0.001)
     scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=10)
     return optimizer, scheduler
 
