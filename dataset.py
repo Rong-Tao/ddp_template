@@ -2,16 +2,9 @@ import os
 import numpy as np
 import torch
 from torch.utils.data import Dataset
-from torchvision.transforms import ToTensor
 
 class Dataset_Class(Dataset):
     def __init__(self, img_dir, gt_dir, transform=None):
-        """
-        Args:
-            img_dir (string): Directory with all the imgs (.npy files).
-            gt_dir (string): Directory with all the gts (.npy files).
-            transform (callable, optional): Optional transform to be applied on a sample.
-        """
         self.img_dir = img_dir
         self.gt_dir = gt_dir
         self.img_files = [f for f in os.listdir(img_dir) if f.endswith('.npy')]
