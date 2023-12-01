@@ -15,7 +15,7 @@ def get_optimizer(model):
     return optimizer, scheduler
 
 def batch_logger(writer, batch_idx, step_num, loss):
-    writer.add_scalar('Batch Training Loss', loss.item(), step_num)
+    writer.add_scalar('Batch Training Loss', loss, step_num)
     #add extra if you want
 
 def epoch_logger_saver(model, writer, epoch, mean_trainloss, validation_loss, best_loss, state_dict_dir):
