@@ -7,7 +7,7 @@ import os
 
 ## Import our own scrips ##
 
-from model import Model_Class
+from model import get_model
 from dataset import get_loaders
 from util import arg, get_optimizer,batch_logger, epoch_logger_saver
 from util import criterion, BATCH_SIZE, EPOCH_NUM, TRAIN_VAL_RATIO
@@ -27,7 +27,7 @@ if rank == 0:
 
 # Training
 def train(rank, world_size):
-    model = Model_Class().cuda()
+    model = get_model().cuda()
     model = DDP(model)
     optimizer, scheduler = get_optimizer(model)
     train_loader, validation_loader = get_loaders(world_size, rank, BATCH_SIZE, TRAIN_VAL_RATIO)
