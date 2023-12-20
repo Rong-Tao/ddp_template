@@ -67,7 +67,7 @@ def train(rank, world_size):
         scheduler.step(validation_loss)
         
         if rank == 0:
-            best_loss = epoch_logger_saver(model, writer, epoch, train_loss/len(train_loader), validation_loss, best_loss, state_dict_dir)
+            best_loss = epoch_logger_saver(model.module, writer, epoch, train_loss/len(train_loader), validation_loss, best_loss, state_dict_dir)
 
     if rank == 0:
         writer.close()
